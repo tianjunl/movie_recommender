@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+ 
+{% block content %}
+
+<h1>Your ratings about:</h1>
+<ul>
+    {% for movie_id in query.keys() %}
+        <li><a href="{{ url_for('movie_info', movieId=movie_id)}}">{{ movie_id }}</a></li>       
+    {% endfor %}
+</ul>
+
+<h1>Your recommendations are: </h1>
+<ul>  
+    {% for rec, title in zipped %}
+        <li><a href="{{ url_for('movie_info', movieId=rec) }}">{{ title }}</a></li>
+    {% endfor %}
+
+</ul>
+
+<a href="{{ url_for('landing_page')}}">Go back to landing page!</a>
+
+
+{% endblock %}

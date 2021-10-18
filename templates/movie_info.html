@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+ 
+{% block content %}
+
+<h1>Here is your movie with a fist!</h1>
+<h2>{{ info['title'] }}</h2>
+<h2>{{ info['genres'] }}</h2>
+
+<img src="https://d19o3rvvi2wlie.cloudfront.net/{{movieId}}.jpg" alt="">
+<br>
+<a href="{{ url_for('landing_page')}}">Go back to landing page!</a>
+
+{% endblock %}

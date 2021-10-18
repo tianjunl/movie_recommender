@@ -1,0 +1,21 @@
+
+{% extends "base.html" %}
+ 
+    {% block content %}
+    
+    <h1>Welcome to Recommend with a Fist!</h1>
+    <h2>Give me some movie ids and ratings!</h2>
+
+    <form id='rating form' action="{{ url_for('recommender') }}">
+        {% for i in range(3) %}
+            <fieldset class="flex two">
+            <input type="text" placeholder="movie id" name="movie_ids">
+            <input type="text" placeholder="rating 1-5" name='ratings'>
+            </fieldset>
+        {% endfor %}
+
+        <input type="submit">
+    </form>
+
+    {% endblock %}
+
