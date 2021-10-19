@@ -11,7 +11,7 @@ from utils import (
     probable_matches,
     title_to_id,
 )
-from recommender import recommend_random
+from recommender import recommend_popular
 
 # instantiates a flask object with the reference point for this app being this python script
 app = Flask(__name__)
@@ -67,7 +67,7 @@ def recommender():
 
     if len(query_titles) > 0:
         query = dict(zip(query_ids, ratings))
-        rec_ids = recommend_random(query=query, movies=movies)
+        rec_ids = recommend_popular(query=query, k=10)
         titles = id_to_title(rec_ids)
         zip_rec = zip(rec_ids, titles)
         query_info = zip(query_ids, query_titles)
