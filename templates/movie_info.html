@@ -5,9 +5,11 @@
 <h1>Here is your movie!</h1>
 <h2>{{ info['title'] }}</h2>
 <h2>{{ info['genres'] }}</h2>
-movie ID: {{ info['movieId'] }}
-
+movie ID: {{ movieId }}
+<br>
+<br>
 <img src="https://d19o3rvvi2wlie.cloudfront.net/{{movieId}}.jpg" alt="">
+<br>
 <br>
 <a href="{{ url_for('landing_page')}}">Go back to landing page!</a>
 
