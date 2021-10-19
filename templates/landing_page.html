@@ -8,8 +8,8 @@
         <form id='rating form' action="{{ url_for('recommender') }}">
             {% for i in range(3) %}
                 <fieldset class="flex two">
-                <input type="text" placeholder="Movie ID" name="query_ids">
-                <input type="text" placeholder="Rating 1-5" name='ratings'>
+                <input type="text" placeholder="movie ID" name="query_ids">
+                <input type="text" placeholder="rating 1-5" name='ratings'>
                 </fieldset>
             {% endfor %}
             <input type="submit">
@@ -28,7 +28,7 @@
             <ul>  
                 <li>
                     <a href="{{ url_for('movie_info', movieId=closest_id) }}">{{ closest_title }}</a><br>
-                    Movie ID: {{ closest_id }}
+                    movie ID: {{ closest_id }}
                 </li>
             </ul>
 
@@ -37,7 +37,7 @@
                 {% for probable_ids, probable_titles in zip_matches %}
                     <li>
                         <a href="{{ url_for('movie_info', movieId=probable_ids) }}">{{ probable_titles }}</a><br>
-                        Movie ID: {{ probable_ids }}
+                        movie ID: {{ probable_ids }}
                     </li>
                 {% endfor %}
                 </ul>
