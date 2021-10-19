@@ -3,19 +3,52 @@
  
     {% block content %}
     
-    <h1>Welcome to Recommend with a Fist!</h1>
-    <h2>Give me some movie ids and ratings!</h2>
+        <h1>Welcome to Movie Recommender!</h1>
+        <h2>Give me some movie IDs and ratings!</h2>
+        <form id='rating form' action="{{ url_for('recommender') }}">
+            {% for i in range(3) %}
+                <fieldset class="flex two">
+                <input type="text" placeholder="Movie ID" name="query_ids">
+                <input type="text" placeholder="Rating 1-5" name='ratings'>
+                </fieldset>
+            {% endfor %}
+            <input type="submit">
+        </form>
 
-    <form id='rating form' action="{{ url_for('recommender') }}">
-        {% for i in range(3) %}
-            <fieldset class="flex two">
-            <input type="text" placeholder="movie id" name="movie_ids">
-            <input type="text" placeholder="rating 1-5" name='ratings'>
+        <h3>If you don't know the movie ID, please input the movie name:</h3>
+        <form id='search id' action="{{ url_for('landing_page') }}">
+            <fieldset class="flex one">
+            <input type="text" placeholder="movie name" name="search_words">
             </fieldset>
-        {% endfor %}
+            <input type="submit">
+        </form>
 
-        <input type="submit">
-    </form>
+        {% if found_status == 1 %}
+            <h2>The best match:</h2>
+            <ul>  
+                <li>
+                    <a href="{{ url_for('movie_info', movieId=closest_id) }}">{{ closest_title }}</a><br>
+                    Movie ID: {{ closest_id }}
+                </li>
+            </ul>
+
+            <h2>Or are you looking for:</h2>
+            <ul>  
+                {% for probable_ids, probable_titles in zip_matches %}
+                    <li>
+                        <a href="{{ url_for('movie_info', movieId=probable_ids) }}">{{ probable_titles }}</a><br>
+                        Movie ID: {{ probable_ids }}
+                    </li>
+                {% endfor %}
+                </ul>
+                
+            <a href="{{ url_for('landing_page')}}">Go back to landing page!</a>
+
+        {% elif found_status == 0 %}
+            Movie not found. <br>
+            Please type in another movie name.
+
+        {% endif %}
+
 
     {% endblock %}
-

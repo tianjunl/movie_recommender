@@ -1,24 +1,41 @@
 
 {% extends "base.html" %}
  
-{% block content %}
+    {% block content %}
 
-<h1>Your ratings about:</h1>
-<ul>
-    {% for movie_id in query.keys() %}
-        <li><a href="{{ url_for('movie_info', movieId=movie_id)}}">{{ movie_id }}</a></li>       
-    {% endfor %}
-</ul>
+        {% if input_valid == -1 %}
+            All movie IDs are not valid! <br>
+            Please try again <a href="{{ url_for('landing_page')}}">here</a> !
 
-<h1>Your recommendations are: </h1>
-<ul>  
-    {% for rec, title in zipped %}
-        <li><a href="{{ url_for('movie_info', movieId=rec) }}">{{ title }}</a></li>
-    {% endfor %}
+        {% else %}
+            <h1>Your ratings about:</h1>
 
-</ul>
+            {% if input_valid == 0 %}
+                One or more movie IDs do not exist. 
+            {% endif %}
 
-<a href="{{ url_for('landing_page')}}">Go back to landing page!</a>
+            <ul>
+                {% for query_id, query_title in query_info %}
+                    <li>
+                        <a href="{{ url_for('movie_info', movieId=query_id)}}">{{ query_title }}</a><br>
+                        Movie ID: {{ query_id }}
+                    </li>       
+                {% endfor %}
+            </ul>
 
+            <h1>allow me to recommend the following movies: </h1>
+            <ul>  
+                {% for rec_id, rec_title in zip_rec %}
+                    <li>
+                        <a href="{{ url_for('movie_info', movieId=rec_id) }}">{{ rec_title }}</a><br>
+                        Movie ID: {{ rec_id }}
+                    </li>
+                {% endfor %}
 
-{% endblock %}
+            </ul>
+
+        {% endif %}
+
+        <a href="{{ url_for('landing_page')}}">Go back to landing page!</a>
+
+    {% endblock %}
