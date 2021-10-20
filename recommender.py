@@ -1,26 +1,24 @@
 import numpy as np
 import pandas as pd
 import pickle
-from utils import ratings, get_ratings_matrix
+from utils import ratings, movies
 
 
-movies = pd.read_csv("./data/ml-latest-small/movies.csv")
+movieclusters = pd.read_csv("./data/movie_clusters.csv", index_col="movieId")
 with open("./models/nmf_recommender.pkl", "rb") as file:
     model_nmf = pickle.load(file)
 with open("./models/distance_recommender.pkl", "rb") as file:
     model_dist = pickle.load(file)
 
-R = get_ratings_matrix(ratings)
 
-
-def recommend_random(query, k=10):
+def recommend_random(query, model=None, k=10):
     """
     Dummy recommender that recommends a list of random movies. Ignores the actual query.
     """
     return movies.sample(k)["movieId"].to_list()
 
 
-def recommend_popular(query, k=10):
+def recommend_popular(query, model=None, k=10):
     """
     Filters and recommends the top k movies for any given input query. 
     Returns a list of k movie ids.
@@ -65,13 +63,24 @@ def recommend_popular(query, k=10):
     return output["movieId"].head(k).tolist()
 
 
-def recommend_cluster(query, k=10):
+def recommend_cluster(query, model=None, k=10):
     """
     Filters and recommends the top k movies from a cluster a given input query. 
     Returns a list of k movie ids.
     """
+    mean_ratings = (
+        ratings.groupby("movieId")[["rating"]].mean().rename(columns={"rating": "mean"})
+    )
+    mean_ratings = pd.concat([movieclusters, mean_ratings], axis=1)
 
-    return [364, 372, 43, 34, 243]
+    liked = [id for id in query.keys() if query[id] >= 3]
+    watched = movieclusters[movieclusters.index.isin(liked)]
+    rec_cluster = watched["cluster_no"].mode().tolist()
+    output = movieclusters[movieclusters["cluster_no"].isin(rec_cluster)].sort_values(
+        "mean", ascending=False
+    )
+
+    return output.head(k).index.tolist()
 
 
 def recommend_nmf(query, model=model_nmf, k=10):
@@ -94,9 +103,8 @@ def recommend_nmf(query, model=model_nmf, k=10):
     scores[list(query.keys())] = 0
     # return the top-k highst rated movie ids or titles
     scores = scores.sort_values(ascending=False)
-    recommendations = scores.head(k).index.tolist()
 
-    return recommendations
+    return scores.head(k).index.tolist()
 
 
 def recommend_neighborhood(query, model=model_dist, k=10):
@@ -126,6 +134,5 @@ def recommend_neighborhood(query, model=model_dist, k=10):
     scores.loc[already_seen] = 0
     # return the top-k highst rated movie ids or titles
     scores = scores.sort_values(ascending=False)
-    recommendations = scores.head(k).index.tolist()
 
-    return recommendations
+    return scores.head(k).index.tolist()
