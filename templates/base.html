@@ -5,11 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
-    <title>Movie Recommender)</title>
+    <title>Movie Recommender</title>
+    <style> 
+        input[type=button], input[type=submit], input[type=reset] {
+          background-color: brown;
+          border: none;
+          color: mintcream;
+          font-family: Ubuntu;
+          text-decoration: none;
+          margin: 4px 2px;
+          cursor: pointer;
+        }
+    </style>
 </head>
-<body>
+<body style="background-color: rosybrown; font-family: Ubuntu; color:rgb(48, 45, 45)">
     {% block content %}
-    <!-- we will always have our content for each page-->
+    <!-- separate pages-->
     {% endblock %}
 </body>
 </html>
