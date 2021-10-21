@@ -3,55 +3,79 @@
  
     {% block content %}
     
-        <h1>Welcome to Movie Recommender!</h1>
-        <h2>Give me some movie IDs and ratings!</h2>
-        <form id='rating form' action="{{ url_for('recommender') }}">
-            {% for i in range(3) %}
-                <fieldset class="flex two">
-                <input type="text" placeholder="movie ID" name="query_ids">
-                <input type="text" placeholder="rating 1-5" name='ratings'>
+        <h1 style="color:rgb(48, 45, 45); font-family:Ubuntu">Welcome to Movie Recommender!</h1>
+        <fieldset>
+            <h2 style="color:rgb(48, 45, 45); font-family:Ubuntu">Give me some movie IDs and ratings!</h2>
+            <form id='rating form' action="{{ url_for('recommender') }}">
+                <fieldset>
+                {% for i in range(3) %}                    
+                    <input type="text" placeholder="movie ID" name="query_ids" maxlength="6" style="height: 36px; width: 300px; font-size: 16px; color:brown; font-family:Ubuntu; background-color: linen;">
+                    <input type="text" placeholder="rating 1-5" name="ratings" maxlength="1" style="height: 36px; width: 150px; font-size: 16px; color:brown; font-family:Ubuntu; background-color: linen;">
+                    <div class="break"></div>
+                {% endfor %}
                 </fieldset>
-            {% endfor %}
-            <input type="submit">
-        </form>
 
-        <h3>If you don't know the movie ID, please input the movie name:</h3>
+                <h3 style="color:rgb(48, 45, 45); font-family:Ubuntu">Select a recommender:</h3>
+                <div>
+                    <input type="radio" id="random" name="select_model" value="random"
+                            checked>
+                    <label for="random" class="checkable" style="color:rgb(48, 45, 45); font-family:Ubuntu">Random</label><br>
+
+                    <input type='radio' id="popular" name="select_model" value="popular" checked />
+                    <label for="popular" class="checkable" style="color:rgb(48, 45, 45); font-family:Ubuntu">Popularity</label><br>
+
+                    <input type="radio" id="cluster" name="select_model" value="cluster">
+                    <label for="cluster" class="checkable" style="color:rgb(48, 45, 45); font-family:Ubuntu">K-Means Clustering</label><br>
+
+                    <input type="radio" id="NMF" name="select_model" value="NMF">
+                    <label for="NMF" class="checkable" style="color:rgb(48, 45, 45); font-family: Ubuntu;">NMF (Non-Negative Matrix Factorization)</label><br>
+
+                    <input type="radio" id="neighborhood" name="select_model" value="neighborhood">
+                    <label for="neighborhood" class="checkable" style="color:rgb(48, 45, 45); font-family:Ubuntu">Neighborhood-based</label><br>
+                </div>
+                <input type="int" placeholder="How many recommendations?" name="rec_num" style="height: 36px; width: 300px; font-size: 16px; color:brown; font-family:Ubuntu; background-color: linen;"><br>
+                <input type="submit" value="Get Recommendations">
+            </form>
+        </fieldset><br>
+
+        <h3 style="color:rgb(48, 45, 45); font-family:Ubuntu">If you don't know the movie ID, please input the movie name:</h3>
         <form id='search id' action="{{ url_for('landing_page') }}">
             <fieldset class="flex one">
-            <input type="text" placeholder="movie name" name="search_words">
+            <input type="text" placeholder="movie name" name="search_words" style="height: 36px; width: 300px; font-size: 16px; color:brown; font-family:Ubuntu; background-color: linen;">
             </fieldset>
-            <input type="submit">
+            <input type="submit" value="Search in Database">
         </form>
 
         {% if found_status == 1 %}
-            <h2>The best match:</h2>
+            <h2 style="font-family:Ubuntu">The best match:</h2>
             <ul>  
                 <li>
                     <a href="{{ url_for('movie_info', movieId=closest_id) }}">{{ closest_title }}</a><br>
-                    movie ID: {{ closest_id }}
+                    <p style="font-family:Ubuntu">movie ID: {{ closest_id }}</p>
                 </li>
             </ul>
 
-            <h2>Or are you looking for:</h2>
+            <h2 style="color:rgb(48, 45, 45); font-family:Ubuntu">Or are you looking for:</h2>
             <ul>  
                 {% for probable_ids, probable_titles in zip_matches %}
                     <li>
                         <a href="{{ url_for('movie_info', movieId=probable_ids) }}">{{ probable_titles }}</a><br>
-                        movie ID: {{ probable_ids }}
+                        <p>movie ID: {{ probable_ids }}</p>
                     </li>
                 {% endfor %}
                 </ul>
                 
-            <a href="{{ url_for('landing_page')}}">Go back to landing page!</a>
+            <a href="{{ url_for('landing_page')}}" style="color:rgb(48, 45, 45); font-family:Ubuntu">Go back to landing page!</a>
 
         {% elif found_status == 0 %}
+            <p style="color:rgb(48, 45, 45); font-family:Ubuntu">
             Movie not found. <br>
             Please type in another movie name.
+            </p>
 
         {% endif %}
         
-        <br>
-        <br>
-        Data Source: <a href="https://grouplens.org/datasets/movielens/">MovieLens</a>
+        <br><br>
+        <p style="color:rgb(48, 45, 45); font-family:Ubuntu;">Data Source: <a href="https://grouplens.org/datasets/movielens/">MovieLens</a></p>
 
     {% endblock %}

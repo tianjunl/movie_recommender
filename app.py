@@ -11,7 +11,13 @@ from utils import (
     probable_matches,
     title_to_id,
 )
-from recommender import recommend_popular
+from recommender import (
+    recommend_random,
+    recommend_popular,
+    recommend_cluster,
+    recommend_nmf,
+    recommend_neighborhood,
+)
 
 # instantiates a flask object with the reference point for this app being this python script
 app = Flask(__name__)
@@ -54,7 +60,17 @@ def recommender():
     This page should access the user input and transform it into recommendations
     """
     query_ids = request.args.getlist("query_ids", type=int)
-    ratings = request.args.getlist("ratings")
+    ratings = request.args.getlist("ratings", type=int)
+    select_model = request.args["select_model"]
+    k = request.args.get("rec_num", type=int)
+
+    recommend = {
+        "random": recommend_random,
+        "popular": recommend_popular,
+        "cluster": recommend_cluster,
+        "NMF": recommend_nmf,
+        "neighborhood": recommend_neighborhood,
+    }.get(select_model, recommend_popular)
     query_titles = id_to_title(query_ids)
 
     if len(query_titles) == len(query_ids):
@@ -67,7 +83,7 @@ def recommender():
 
     if len(query_titles) > 0:
         query = dict(zip(query_ids, ratings))
-        rec_ids = recommend_popular(query=query, k=10)
+        rec_ids = recommend(query=query, k=k)
         titles = id_to_title(rec_ids)
         zip_rec = zip(rec_ids, titles)
         query_info = zip(query_ids, query_titles)
