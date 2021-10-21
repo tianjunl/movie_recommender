@@ -17,8 +17,8 @@
             <ul>
                 {% for query_id, query_title in query_info %}
                     <li>
-                        <a href="{{ url_for('movie_info', movieId=query_id)}}">{{ query_title }}</a><br>
-                        Movie ID: {{ query_id }}
+                        <a href="{{ url_for('movie_info', movieId=query_id)}}">{{ query_title }}</a>
+                        <span>movie ID: {{ query_id }}</span>
                     </li>       
                 {% endfor %}
             </ul>
@@ -27,8 +27,8 @@
             <ul>  
                 {% for rec_id, rec_title in zip_rec %}
                     <li>
-                        <a href="{{ url_for('movie_info', movieId=rec_id) }}">{{ rec_title }}</a><br>
-                        Movie ID: {{ rec_id }}
+                        <a href="{{ url_for('movie_info', movieId=rec_id) }}">{{ rec_title }}</a>
+                        <span>movie ID: {{ rec_id }}</span>
                     </li>
                 {% endfor %}
 
