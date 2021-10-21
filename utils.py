@@ -11,7 +11,8 @@ def get_ratings_matrix(ratings):
     """
     This function returns a CSR matrix of the given dataframe
     """
-    R = csr_matrix((ratings["rating"], (ratings["userId"], ratings["movieId"])))
+    R = csr_matrix(
+        (ratings["rating"], (ratings["userId"], ratings["movieId"])))
     return R
 
 
@@ -39,7 +40,7 @@ def title_to_id(titles):
 
 def search_movies(search_words, movies):
     """
-    This function takes in key words, and returns a dataframe 
+    This function takes in key words, and returns a dataframe
     of related movies and a status value. The status value is 1
     if the search_result is not empty, otherwise 0.
     """
@@ -71,21 +72,21 @@ def search_movies(search_words, movies):
 
 def best_match(search_df):
     """
-    This function takes in search result dataframe and 
+    This function takes in search result dataframe and
     returns the movie ID and title the best match.
     """
-    closest_title = search_df.iloc[0,]["title"]
-    closest_id = search_df.iloc[0,]["movieId"]
+    closest_title = search_df.iloc[0, ]["title"]
+    closest_id = search_df.iloc[0, ]["movieId"]
     return closest_id, closest_title
 
 
 def probable_matches(search_df):
     """
-    This function takes in search result dataframe and 
+    This function takes in search result dataframe and
     returns the movie IDs and titles the probable matches.
     """
-    probable_ids = search_df.iloc[1:,]["movieId"].to_list()
-    probable_titles = search_df.iloc[1:,]["title"].to_list()
+    probable_ids = search_df.iloc[1:, ]["movieId"].to_list()
+    probable_titles = search_df.iloc[1:, ]["title"].to_list()
     return probable_ids, probable_titles
 
 
