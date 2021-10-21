@@ -20,7 +20,7 @@ def recommend_random(query, model=None, k=10):
 
 def recommend_popular(query, model=None, k=10):
     """
-    Filters and recommends the top k movies for any given input query. 
+    Filters and recommends the top k movies for any given input query.
     Returns a list of k movie ids.
     """
     watched = movies[movies["movieId"].isin(list(query.keys()))]
@@ -65,27 +65,28 @@ def recommend_popular(query, model=None, k=10):
 
 def recommend_cluster(query, model=None, k=10):
     """
-    Filters and recommends the top k movies from a cluster a given input query. 
+    Filters and recommends the top k movies from a cluster a given input query.
     Returns a list of k movie ids.
     """
     mean_ratings = (
-        ratings.groupby("movieId")[["rating"]].mean().rename(columns={"rating": "mean"})
-    )
+        ratings.groupby("movieId")[
+            ["rating"]].mean().rename(
+            columns={
+                "rating": "mean"}))
     mean_ratings = pd.concat([movieclusters, mean_ratings], axis=1)
 
     liked = [id for id in query.keys() if query[id] >= 3]
     watched = movieclusters[movieclusters.index.isin(liked)]
     rec_cluster = watched["cluster_no"].mode().tolist()
-    output = mean_ratings[mean_ratings["cluster_no"].isin(rec_cluster)].sort_values(
-        by="mean", ascending=False
-    )
+    output = mean_ratings[mean_ratings["cluster_no"].isin(
+        rec_cluster)].sort_values(by="mean", ascending=False)
 
     return output.head(k).index.tolist()
 
 
 def recommend_nmf(query, model=model_nmf, k=10):
     """
-    Filters and recommends the top k movies for any given input query based on a trained NMF model. 
+    Filters and recommends the top k movies for any given input query based on a trained NMF model.
     Returns a list of k movie ids.
     """
     # 1. candiate generation
@@ -109,7 +110,7 @@ def recommend_nmf(query, model=model_nmf, k=10):
 
 def recommend_neighborhood(query, model=model_dist, k=10):
     """
-    Filters and recommends the top k movies for any given input query based on a trained nearest neighbors model. 
+    Filters and recommends the top k movies for any given input query based on a trained nearest neighbors model.
     Returns a list of k movie ids.
     """
     # 1. candiate generation

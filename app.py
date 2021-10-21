@@ -46,14 +46,16 @@ def landing_page():
                 zip_matches=zip_matches,
             )
         else:
-            return render_template("landing_page.html", found_status=found_status)
+            return render_template(
+                "landing_page.html",
+                found_status=found_status)
     else:
         return render_template("landing_page.html")
 
 
 @app.route("/recommendations")
 def recommender():
-    """ 
+    """
     This page should access the user input and transform it into recommendations
     """
     query_ids = request.args.getlist("query_ids", type=int)
