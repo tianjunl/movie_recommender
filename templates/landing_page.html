@@ -8,7 +8,7 @@
             <h2>Give me some movie IDs and ratings!</h2>
             <form id='rating form' action="{{ url_for('recommender') }}">
                 <fieldset>
-                {% for i in range(3) %}                    
+                {% for i in range(5) %}                    
                     <input type="text" placeholder="movie ID" name="query_ids" maxlength="6" style="height: 36px; width: 300px; font-size: 16px; color:brown;; background-color: linen;">
                     <input type="text" placeholder="rating 1-5" name="ratings" maxlength="1" style="height: 36px; width: 150px; font-size: 16px; color:brown;; background-color: linen;">
                     <div class="break"></div>

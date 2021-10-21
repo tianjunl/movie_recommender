@@ -19,11 +19,8 @@ from recommender import (
     recommend_neighborhood,
 )
 
-# instantiates a flask object with the reference point for this app being this python script
-app = Flask(__name__)
 
-# this decorator gives our function new functionality
-# it now knows in which URL to redener the information
+app = Flask(__name__)
 
 
 @app.route("/")
