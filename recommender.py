@@ -76,8 +76,8 @@ def recommend_cluster(query, model=None, k=10):
     liked = [id for id in query.keys() if query[id] >= 3]
     watched = movieclusters[movieclusters.index.isin(liked)]
     rec_cluster = watched["cluster_no"].mode().tolist()
-    output = movieclusters[movieclusters["cluster_no"].isin(rec_cluster)].sort_values(
-        "mean", ascending=False
+    output = mean_ratings[mean_ratings["cluster_no"].isin(rec_cluster)].sort_values(
+        by="mean", ascending=False
     )
 
     return output.head(k).index.tolist()
